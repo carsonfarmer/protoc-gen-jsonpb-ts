@@ -46,7 +46,11 @@ read()
           root: path.resolve(__dirname, "../templates")
         }
       );
-      const content = prettier.format(output, { parser: "typescript" });
+      const content = prettier.format(output, {
+        parser: "typescript",
+        semi: false,
+        singleQuote: true
+      });
       file.setName(filename.replace(".proto", "_pb.ts"));
       file.setContent(content);
       response.addFile(file);

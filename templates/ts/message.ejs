@@ -1,8 +1,16 @@
 <%
 const { name, fieldList, nestedTypeList, enumTypeList } = message;
 const hasNested = nestedTypeList.length > 0 || enumTypeList.length > 0
+const isMap = name.endsWith('Entry')
 _%>
+<% if (isMap) { %>
+<% const type = helper.mapFieldType(fieldList[1], filename).type _%>
+export interface <%= name.slice(0, -5) %> { [k: string]: <%= type %> }
+<% } %>
+<% if (!isMap) { %>
 export interface <%= name %> {
+<% } %>
+<% if (!isMap) { %>
 <% fieldList.forEach( field => { _%>
   <%- include('field', { field, helper, filename, config }) %>
 <% }); %>
@@ -10,15 +18,13 @@ export interface <%= name %> {
 <% if (hasNested) { %>
 export namespace <%= name %> {
 <% } %>
-
 <% nestedTypeList.forEach( message => { _%>
 <%- include('message', { message, helper, filename, config }) %>
 <% }); _%>
-
 <% enumTypeList.forEach( enumType => { _%>
 <%- include('enum', { enumType, helper, filename, config }) _%>
 <% }); _%>
-
 <% if (hasNested) { _%>
 }
+<% } %>
 <% } %>

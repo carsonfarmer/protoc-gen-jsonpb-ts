@@ -6,7 +6,7 @@ import { Helper } from "../helper";
 import { Config } from "../config";
 import { ExportMap } from "../export-map";
 import { ignoreProto, wellKnownProto } from "../ts/well-known-proto";
-import { snakeToCamel, dependencyFilename, dependencyName } from "../utils";
+import { dependencyFilename, dependencyName } from "../utils";
 import { HTTPMethod } from "../lib";
 
 export class TSHelper extends Helper {
@@ -43,7 +43,7 @@ export class TSHelper extends Helper {
   }
 
   mapFieldName(name: string): string {
-    return snakeToCamel(name);
+    return name;
   }
 
   mapFieldType(
@@ -98,7 +98,7 @@ export class TSHelper extends Helper {
   }
 
   private typeName(fullTypeName: string, packageName: string) {
-    return fullTypeName.slice(packageName.length + 1);
+    return fullTypeName.slice(packageName.length);
   }
 
   private dependency(dependency: string, filename: string) {
